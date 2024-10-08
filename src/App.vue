@@ -8,6 +8,7 @@
   <main>
     <Button ref="buttonRef" type="success">Test Button</Button>
     <Button ref="buttonRef" type="warning">Test Button</Button>
+    <Button ref="buttonRef" type="primary">Test Button</Button>
     <Button ref="buttonRef" plain>Test Button</Button>
     <Button ref="buttonRef" size="large">Test Button</Button>
   </main>
