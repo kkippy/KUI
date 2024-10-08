@@ -3,13 +3,12 @@ module.exports = {
         require('postcss-each-variables'),
         require('postcss-nested'),
         require('postcss-each')({
-            plugin: {
-                beforeEach:[
+            plugins: {
+                beforeEach: [
                     require('postcss-for'),
                     require('postcss-color-mix'),
                 ]
             }
         }),
-
     ]
 }

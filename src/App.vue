@@ -15,9 +15,9 @@
 </template>
 
 <script setup lang="ts">
-import Button from "@/button/Button.vue";
+import Button from "@/components/button/Button.vue";
 import {ref,onMounted}  from  "vue"
-import type {ButtonInterface} from  "@/button/type"
+import type {ButtonInterface} from "@/components/button/type"
 const buttonRef = ref<ButtonInterface | null>(null)
 
 onMounted(()=>{
