@@ -9,22 +9,40 @@
     <Button ref="buttonRef" type="success">Test Button</Button>
     <Button ref="buttonRef" type="warning">Test Button</Button>
     <Button ref="buttonRef" type="primary">Test Button</Button>
-    <Button ref="buttonRef" plain>Test Button</Button>
-    <Button ref="buttonRef" size="large">Test Button</Button>
+    <Collapse v-model="openValue" accordion>
+      <CollapseItem  name="1">
+        <template #title>
+          哈哈哈哈
+        </template>
+        <div>第一个的内容</div>
+      </CollapseItem>
+
+      <CollapseItem  name="2">
+        <template #title>
+          第二个标题
+        </template>
+        <div>第二个的内容</div>
+      </CollapseItem>
+
+      <CollapseItem title="test2" name="2" disabled>
+        <template #title>
+          第二个
+        </template>
+      </CollapseItem>
+      {{openValue}}
+    </Collapse>
   </main>
 </template>
 
 <script setup lang="ts">
 import Button from "@/components/button/Button.vue";
+import Collapse from "@/components/collapse/Collapse.vue"
+import CollapseItem from "@/components/collapse/CollapseItem.vue"
 import {ref,onMounted}  from  "vue"
 import type {ButtonInterface} from "@/components/button/type"
 const buttonRef = ref<ButtonInterface | null>(null)
 
-onMounted(()=>{
-  if(buttonRef.value){
-    console.log('buttonRef',buttonRef.value.ref)
-  }
-})
+const openValue = ref(['1'])
 </script>
 
 <style scoped>
