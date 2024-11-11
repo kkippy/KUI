@@ -66,5 +66,8 @@
     --k-disabled-text-color:var(--k-text-color-placeholder);
     --k-disabled-border-color:var(--k-border-color-light);
 
-    --k-transition-duration:0.3s;
+
+    /*animation*/
+    --k-transition-duration: .3s;
+    --k-transition-duration-fast: .3s;
 }

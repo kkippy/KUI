@@ -79,6 +79,9 @@
         cursor: not-allowed;
         background-image: none;
     }
+    [class*=k-icon] + span {
+        margin-left: 8px;
+    }
 }
 
 @each $val in primary,success,warning,info,danger {

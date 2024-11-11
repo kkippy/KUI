@@ -8,12 +8,15 @@
         'is-round':round,
         [`k-button--${type}`]:type,
         [`k-button--${size}`]:size,
-        'is-disabled':disabled
+        'is-disabled':disabled,
+        'is-loading':loading
       }"
-      :disabled="disabled"
+      :disabled="disabled || loading"
       :auto-focus="autoFocus"
       :type="nativeType"
   >
+    <Icon icon="spinner" spin v-if="loading" />
+    <Icon :icon="icon" v-if="icon"></Icon>
     <span>
       <slot></slot>
     </span>
@@ -25,6 +28,7 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import './style.css'
+import Icon from "../Icon/icon.vue"
 export default defineComponent({
   name: "KButton",
 })

@@ -9,6 +9,8 @@
     <Button ref="buttonRef" type="success">Test Button</Button>
     <Button ref="buttonRef" type="warning">Test Button</Button>
     <Button ref="buttonRef" type="primary">Test Button</Button>
+    <Button ref="buttonRef" type="warning" loading >loading</Button>
+    <Button ref="buttonRef" type="primary" icon="arrow-up">Test Button</Button>
     <Collapse v-model="openValue" accordion>
       <CollapseItem  name="1">
         <template #title>
@@ -29,17 +31,18 @@
           第二个
         </template>
       </CollapseItem>
-      {{openValue}}
     </Collapse>
+    <Icon icon="poo" type="primary" />
   </main>
 </template>
 
 <script setup lang="ts">
-import Button from "@/components/button/Button.vue";
-import Collapse from "@/components/collapse/Collapse.vue"
-import CollapseItem from "@/components/collapse/CollapseItem.vue"
+import Button from "@/components/Button/Button.vue";
+import Collapse from "@/components/Collapse/Collapse.vue"
+import Icon from "@/components/Icon/icon.vue"
+import CollapseItem from "@/components/Collapse/CollapseItem.vue"
 import {ref,onMounted}  from  "vue"
-import type {ButtonInterface} from "@/components/button/type"
+import type {ButtonInterface} from "@/components/Button/type"
 const buttonRef = ref<ButtonInterface | null>(null)
 
 const openValue = ref(['1'])

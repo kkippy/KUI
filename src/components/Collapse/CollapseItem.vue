@@ -14,6 +14,7 @@
          @click="handleClick"
     >
       <slot name="title">{{title}}</slot>
+      <Icon icon="angle-right" class="header-angle" />
     </div>
 
 <!--类名命名规范遵循BEM-->
@@ -42,6 +43,7 @@
 import type {CollapseItemProps} from './type'
 import {CollapseContentKey}  from './type'
 import {inject,computed} from "vue";
+import Icon from "../Icon/icon.vue"
 
 defineOptions({
   name: 'KCollapseItem'

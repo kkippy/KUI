@@ -10,6 +10,8 @@ export interface ButtonProps {
     disabled?: boolean,
     nativeType?: NativeButtonType,
     autoFocus?: boolean,
+    icon?:string,
+    loading?:boolean
 }
 
 export interface ButtonInterface {
