@@ -65,4 +65,6 @@
     --k-disabled-bg-color:var(--k-fill-color-light);
     --k-disabled-text-color:var(--k-text-color-placeholder);
     --k-disabled-border-color:var(--k-border-color-light);
+
+    --k-transition-duration:0.3s;
 }
