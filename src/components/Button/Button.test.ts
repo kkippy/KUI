@@ -2,6 +2,7 @@ import {describe,test,expect} from "vitest";
 import Button from "./Button.vue"
 import {mount} from "@vue/test-utils";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import Icon from "../Icon/icon.vue"
 
 
 describe('Button test' ,()=>{
@@ -71,19 +72,20 @@ describe('Button test' ,()=>{
     test('loading',()=>{
         const wrapper = mount(Button,{
             props:{
-                icon:'search'
+                loading:true
             },
             slots:{
-                default:'icon'
+                default:'loading'
             },
             global:{
                 //在stubs数组中填写要模拟的组件名称
-                stubs:['FontAwesomeIcon']
+                stubs:['Icon']
             }
         })
+        console.log(wrapper.html())
+        const loading = wrapper.findComponent(Icon)
+        expect(loading.exists()).toBe(true)
+        expect(wrapper.attributes('disabled')).toBeDefined()
 
-        const icon = wrapper.findComponent(FontAwesomeIcon)
-        expect(icon.exists()).toBe(true)
-        expect(icon.attributes('icon')).toBe('search')
     })
 })
