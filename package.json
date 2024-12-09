@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 5175",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
@@ -16,6 +16,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@types/lodash-es": "^4.17.12",
+    "axios": "^1.7.9",
     "lodash-es": "^4.17.21",
     "vue": "^3.4.29"
   },
@@ -26,9 +27,11 @@
     "@vitejs/plugin-vue": "^5.0.5",
     "@vitejs/plugin-vue-jsx": "^4.0.0",
     "@vue/eslint-config-typescript": "^13.0.0",
+    "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.5.1",
     "eslint": "^8.57.1",
     "eslint-plugin-vue": "^9.23.0",
+    "jsdom": "^25.0.1",
     "npm-run-all2": "^6.2.0",
     "postcss-color-mix": "^1.1.0",
     "postcss-each": "^1.1.0",

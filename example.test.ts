@@ -1,5 +1,9 @@
-import {test,expect,describe,vi} from 'vitest'
-import { testFn } from "./utils"
+import {test,expect,describe,vi,Mocked} from 'vitest'
+import { testFn,request } from "./utils"
+import axios from "axios";
+vi.mock('axios')
+//Mocked会接受一个泛型，表示被mock的模块的类型
+const mockedAxios = axios as Mocked<typeof axios>
 
 //expect断言的使用
 test('common test',()=>{
@@ -41,5 +45,27 @@ describe('function test',()=>{
     expect(callback).toHaveBeenCalled() //断言callback已经被调用了
     expect(callback).toHaveBeenCalledWith(10) //断言callback是被谁调用的
   })
+
+  //监控对象上的方法
+  test('spy on method',()=>{
+    const  obj = {
+      name:'krabby',
+      getName(){
+        return this.name
+      }
+    }
+    const spy = vi.spyOn(obj,'getName')
+    obj.getName()
+    expect(spy).toHaveBeenCalledTimes(1) //断言getName方法被调用了1次
+  })
+
+  test('mock requset',async ()=>{
+    //mockImplementation可以手动的设置mock函数的实现
+    // mockedAxios.get.mockImplementation(()=>Promise.resolve({data:123}))
+    mockedAxios.get.mockResolvedValue({data:123}) // mockResolvedValue是mockImplementation的简写,两者等价
+    const result = await request()
+    expect(result).toBe(123)
+  })
+
 })
 
