@@ -2,8 +2,13 @@
 
 <template>
   <header>
-    <img ref="triggerNode" alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-    <div ref="contentNode">I'm a tooltip</div>
+    <Tooltip placement="top" trigger="hover">
+      <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+      <template #content>
+        <h2>hell0 world</h2>
+      </template>
+    </Tooltip>
+
   </header>
 
   <main>
@@ -42,36 +47,17 @@ import Button from "@/components/Button/Button.vue";
 import Collapse from "@/components/Collapse/Collapse.vue"
 import Icon from "@/components/Icon/icon.vue"
 import CollapseItem from "@/components/Collapse/CollapseItem.vue"
+import Tooltip from "./components/Tooltip/tooltip.vue"
 import {ref,onMounted}  from  "vue"
-import {createPopper} from "@popperjs/core";
-import type {Instance} from "@popperjs/core";
 import type {ButtonInterface} from "@/components/Button/type"
 const buttonRef = ref<ButtonInterface | null>(null)
 const triggerNode = ref<HTMLElement>()
 const contentNode = ref<HTMLElement>()
 
-let popperInstance : Instance | null = null
 
 const openValue = ref(['1'])
 
 onMounted(()=>{
-  if(triggerNode.value && contentNode.value){
-    popperInstance =  createPopper(triggerNode.value, contentNode.value, {
-      placement: 'right',
-      modifiers: [
-        {
-          name: 'offset',
-          options: {
-            offset: [0, 8],
-          },
-        },
-      ],
-    });
-  }
-
-  setTimeout(()=>{
-    popperInstance?.setOptions({placement:'bottom'})
-  },1000)
 
 })
 </script>
