@@ -7,6 +7,7 @@
     <Transition :name="transition">
       <div v-if="isOpen" ref="popperRef" class="k-tooltip__popper ">
         <slot name="content">{{content}}</slot>
+        <div id="arrow" data-popper-arrow></div>
       </div>
     </Transition>
   </div>
@@ -32,6 +33,14 @@ const popperOptions = computed(()=>{
   //整合popper配置，因为placement存在于popperOptions中，优先级较低
   return {
     placement: props.placement,
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 8],
+        },
+      },
+    ],
     ...props.popperOptions
   }
 })
@@ -92,11 +101,11 @@ const close = () => {
 const openDebounce = () => {
   // 取消上次的close后再执行open,不取消的话触发多少次open就会有多少次close
   debounce(close,props.closeDelay).cancel()
-  debounce(open,props.openDelay)
+  debounce(open,props.openDelay)()
 }
 const closeDebounce = () => {
   debounce(open,props.openDelay).cancel()
-  debounce(close,props.closeDelay)
+  debounce(close,props.closeDelay)()
 }
 
 
