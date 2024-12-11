@@ -2,10 +2,10 @@
 
 <template>
   <header>
-    <Tooltip ref="tooltipRef" placement="top" trigger="click" manual :popper-options="options">
+    <Tooltip ref="tooltipRef" placement="top" trigger="click" :open-delay="1000" :close-delay="1000">
       <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
       <template #content>
-        <h2>hell0 world</h2>
+        <h2>hello world</h2>
       </template>
     </Tooltip>
 

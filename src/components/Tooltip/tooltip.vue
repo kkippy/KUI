@@ -19,6 +19,7 @@ import type {Instance} from "@popperjs/core";
 import type {TooltipProps,TooltipEmits,TooltipInstance} from "./type"
 import {defineOptions, watch, ref, reactive, onUnmounted, computed} from "vue";
 import useClickOutside from "@/utils/useClickOutside";
+import {debounce} from "lodash-es";
 
 const emits = defineEmits<TooltipEmits>()
 const triggerRef = ref<HTMLElement>()
@@ -42,7 +43,9 @@ let popperInstance : Instance | null = null
 const props = withDefaults(defineProps<TooltipProps>(),{
   placement:'top',
   trigger:'hover',
-  transition:'fade'
+  transition:'fade',
+  openDelay:0,
+  closeDelay:0
 })
 
 watch(isOpen,(newValue)=>{
@@ -86,22 +89,36 @@ const close = () => {
   emits('visible-change',false)
 }
 
+const openDebounce = () => {
+  // 取消上次的close后再执行open,不取消的话触发多少次open就会有多少次close
+  debounce(close,props.closeDelay).cancel()
+  debounce(open,props.openDelay)
+}
+const closeDebounce = () => {
+  debounce(open,props.openDelay).cancel()
+  debounce(close,props.closeDelay)
+}
+
+
 const handleChangeVisible = ()=> {
-  isOpen.value = !isOpen.value
-  emits('visible-change',isOpen.value)
+  if(isOpen.value){
+    closeDebounce()
+  } else {
+    openDebounce()
+  }
 }
 
 useClickOutside(containerRef,()=>{
   //触发方式为点击并且isOpen为真时，点击外部关闭
   if(props.trigger === 'click' && isOpen.value && !props.manual){
-    close()
+    closeDebounce()
   }
 })
 
 const handleEvent = () => {
   if(props.trigger === 'hover'){
-    events['mouseenter'] = open
-    outerEvents['mouseleave'] = close
+    events['mouseenter'] = openDebounce
+    outerEvents['mouseleave'] = closeDebounce
   } else if(props.trigger === 'click') {
     events['click'] = handleChangeVisible
   }
@@ -117,8 +134,8 @@ onUnmounted(()=> {
 
 //暴露手动控制方法
 defineExpose<TooltipInstance>({
-  show:open,
-  hide:close
+  show:openDebounce,
+  hide:closeDebounce
 })
 
 </script>

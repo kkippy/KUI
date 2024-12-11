@@ -7,6 +7,8 @@ export interface TooltipProps{
     manual?:boolean;
     popperOptions?:Partial<Options> ; //将Options类型中的必选项转换为可选项
     transition?:string;
+    openDelay?:number;
+    closeDelay?:number;
 }
 
 export interface TooltipEmits{
