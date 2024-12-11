@@ -2,7 +2,7 @@
 
 <template>
   <header>
-    <Tooltip placement="top" trigger="hover">
+    <Tooltip placement="top" trigger="click">
       <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
       <template #content>
         <h2>hell0 world</h2>
@@ -51,9 +51,6 @@ import Tooltip from "./components/Tooltip/tooltip.vue"
 import {ref,onMounted}  from  "vue"
 import type {ButtonInterface} from "@/components/Button/type"
 const buttonRef = ref<ButtonInterface | null>(null)
-const triggerNode = ref<HTMLElement>()
-const contentNode = ref<HTMLElement>()
-
 
 const openValue = ref(['1'])
 
