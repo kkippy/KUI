@@ -10,3 +10,8 @@ export interface TooltipProps{
 export interface TooltipEmits{
     (e:'visible-change',value:boolean):void
 }
+
+export interface TooltipInstance {
+    show:()=>void;
+    hide:()=>void;
+}

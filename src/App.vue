@@ -2,7 +2,7 @@
 
 <template>
   <header>
-    <Tooltip placement="top" trigger="click">
+    <Tooltip ref="tooltipRef" placement="top" trigger="click" manual>
       <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
       <template #content>
         <h2>hell0 world</h2>
@@ -12,8 +12,8 @@
   </header>
 
   <main>
-    <Button ref="buttonRef" type="success">Test Button</Button>
-    <Button ref="buttonRef" type="warning">Test Button</Button>
+    <Button ref="buttonRef" type="success" @click="open">打开tooltip</Button>
+    <Button ref="buttonRef" type="warning" @click="close">关闭tooltip</Button>
     <Button ref="buttonRef" type="primary">Test Button</Button>
     <Button ref="buttonRef" type="warning" loading >loading</Button>
     <Button ref="buttonRef" type="primary" icon="arrow-up">Test Button</Button>
@@ -48,11 +48,20 @@ import Collapse from "@/components/Collapse/Collapse.vue"
 import Icon from "@/components/Icon/icon.vue"
 import CollapseItem from "@/components/Collapse/CollapseItem.vue"
 import Tooltip from "./components/Tooltip/tooltip.vue"
+import type {TooltipInstance} from "@/components/Tooltip/type";
 import {ref,onMounted}  from  "vue"
 import type {ButtonInterface} from "@/components/Button/type"
 const buttonRef = ref<ButtonInterface | null>(null)
+const tooltipRef = ref<TooltipInstance | null>(null)
 
 const openValue = ref(['1'])
+
+const open = () => {
+  tooltipRef.value?.show()
+}
+const close = () => {
+  tooltipRef.value?.hide()
+}
 
 onMounted(()=>{
 

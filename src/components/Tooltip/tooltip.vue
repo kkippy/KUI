@@ -15,8 +15,8 @@
 <script setup lang="ts">
 import {createPopper} from "@popperjs/core";
 import type {Instance} from "@popperjs/core";
-import type {TooltipProps,TooltipEmits} from "./type"
-import {defineOptions, watch, ref, reactive} from "vue";
+import type {TooltipProps,TooltipEmits,TooltipInstance} from "./type"
+import {defineOptions, watch, ref, reactive,onUnmounted} from "vue";
 import useClickOutside from "@/utils/useClickOutside";
 
 const emits = defineEmits<TooltipEmits>()
@@ -58,6 +58,16 @@ watch(()=> props.trigger,(oldValue,newValue)=>{
   }
 })
 
+watch(()=>props.manual,(newValue) => {
+  //如果为手动模式，则清空事件
+  if(newValue) {
+    events = {}
+    outerEvents = {}
+  } else {
+    handleEvent()
+  }
+})
+
 const open = () =>{
   isOpen.value = true
   emits('visible-change',true)
@@ -75,7 +85,7 @@ const handleChangeVisible = ()=> {
 
 useClickOutside(containerRef,()=>{
   //触发方式为点击并且isOpen为真时，点击外部关闭
-  if(props.trigger === 'click' && isOpen){
+  if(props.trigger === 'click' && isOpen.value && !props.manual){
     close()
   }
 })
@@ -88,8 +98,20 @@ const handleEvent = () => {
     events['click'] = handleChangeVisible
   }
 }
-handleEvent()
+//不为手动模式的话则调用handleEvent
+if(!props.manual){
+  handleEvent()
+}
 
+onUnmounted(()=> {
+  popperInstance?.destroy()
+})
+
+//暴露手动控制方法
+defineExpose<TooltipInstance>({
+  show:open,
+  hide:close
+})
 
 </script>
 
