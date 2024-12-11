@@ -1,10 +1,12 @@
-import type {Placement} from "@popperjs/core";
+import type {Placement,Options} from "@popperjs/core";
 
 export interface TooltipProps{
     content?:string;
     placement?:Placement;
     trigger?:'hover' | 'click';
     manual?:boolean;
+    popperOptions?:Partial<Options> ; //将Options类型中的必选项转换为可选项
+    transition?:string;
 }
 
 export interface TooltipEmits{

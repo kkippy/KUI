@@ -4,10 +4,11 @@
       <slot ></slot>
     </div>
 
-    <div v-if="isOpen" ref="popperRef" class="k-tooltip__popper ">
-      <slot name="content">{{content}}</slot>
-    </div>
-
+    <Transition :name="transition">
+      <div v-if="isOpen" ref="popperRef" class="k-tooltip__popper ">
+        <slot name="content">{{content}}</slot>
+      </div>
+    </Transition>
   </div>
 
 </template>
@@ -16,7 +17,7 @@
 import {createPopper} from "@popperjs/core";
 import type {Instance} from "@popperjs/core";
 import type {TooltipProps,TooltipEmits,TooltipInstance} from "./type"
-import {defineOptions, watch, ref, reactive,onUnmounted} from "vue";
+import {defineOptions, watch, ref, reactive, onUnmounted, computed} from "vue";
 import useClickOutside from "@/utils/useClickOutside";
 
 const emits = defineEmits<TooltipEmits>()
@@ -26,21 +27,28 @@ const containerRef = ref<HTMLElement>()
 const isOpen = ref(false)
 let events:Record<string, any> = reactive({})
 let outerEvents:Record<string, any> = reactive({})
+const popperOptions = computed(()=>{
+  //整合popper配置，因为placement存在于popperOptions中，优先级较低
+  return {
+    placement: props.placement,
+    ...props.popperOptions
+  }
+})
+
 defineOptions({
   name: "KTooltip"
 })
 let popperInstance : Instance | null = null
 const props = withDefaults(defineProps<TooltipProps>(),{
   placement:'top',
-  trigger:'hover'
+  trigger:'hover',
+  transition:'fade'
 })
 
 watch(isOpen,(newValue)=>{
   if(newValue){
     if(triggerRef.value && popperRef.value){
-      popperInstance =  createPopper(triggerRef.value, popperRef.value, {
-        placement: props.placement,
-      });
+      popperInstance =  createPopper(triggerRef.value, popperRef.value, popperOptions.value);
     } else {
       popperInstance?.destroy()
     }

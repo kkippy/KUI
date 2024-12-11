@@ -2,7 +2,7 @@
 
 <template>
   <header>
-    <Tooltip ref="tooltipRef" placement="top" trigger="click" manual>
+    <Tooltip ref="tooltipRef" placement="top" trigger="click" manual :popper-options="options">
       <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
       <template #content>
         <h2>hell0 world</h2>
@@ -51,8 +51,14 @@ import Tooltip from "./components/Tooltip/tooltip.vue"
 import type {TooltipInstance} from "@/components/Tooltip/type";
 import {ref,onMounted}  from  "vue"
 import type {ButtonInterface} from "@/components/Button/type"
+import type {Options} from "@popperjs/core";
+
 const buttonRef = ref<ButtonInterface | null>(null)
 const tooltipRef = ref<TooltipInstance | null>(null)
+const options:Partial<Options> = {
+  placement:'bottom',
+  strategy:'fixed'
+}
 
 const openValue = ref(['1'])
 

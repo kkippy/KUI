@@ -1,0 +1,8 @@
+.k-tooltip {
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity  var(--k-transition-duration);
+    }
+    .fade-enter-from, .fade-leave-to {
+        opacity: 0;
+    }
+}
