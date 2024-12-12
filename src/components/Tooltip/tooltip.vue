@@ -18,8 +18,8 @@
 import {createPopper} from "@popperjs/core";
 import type {Instance} from "@popperjs/core";
 import type {TooltipProps,TooltipEmits,TooltipInstance} from "./type"
-import {defineOptions, watch, ref, reactive, onUnmounted, computed} from "vue";
-import useClickOutside from "@/utils/useClickOutside";
+import {watch, ref, reactive, onUnmounted, computed} from "vue";
+import clickOutside from "../../utils/useClickOutside";
 import {debounce} from "lodash-es";
 
 const emits = defineEmits<TooltipEmits>()
@@ -117,7 +117,7 @@ const handleChangeVisible = ()=> {
   }
 }
 
-useClickOutside(containerRef,()=>{
+clickOutside(containerRef,()=>{
   //触发方式为点击并且isOpen为真时，点击外部关闭
   if(props.trigger === 'click' && isOpen.value && !props.manual){
     closeDebounce()
