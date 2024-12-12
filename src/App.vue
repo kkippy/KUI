@@ -2,12 +2,12 @@
 
 <template>
   <header>
-    <Tooltip ref="tooltipRef" placement="right" trigger="click"  :open-delay="1000" :close-delay="1000">
+    <Dropdown ref="tooltipRef" placement="right" trigger="click"  :menu-option="option">
       <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
       <template #content>
         <h2>hello world</h2>
       </template>
-    </Tooltip>
+    </Dropdown>
 
   </header>
 
@@ -49,16 +49,42 @@ import Icon from "@/components/Icon/icon.vue"
 import CollapseItem from "@/components/Collapse/CollapseItem.vue"
 import Tooltip from "./components/Tooltip/tooltip.vue"
 import type {TooltipInstance} from "@/components/Tooltip/type";
-import {ref,onMounted}  from  "vue"
+import type {MenuOption} from "@/components/Dropdown/type";
+import {ref,onMounted,h}  from  "vue"
 import type {ButtonInterface} from "@/components/Button/type"
 import type {Options} from "@popperjs/core";
+import Dropdown from "@/components/Dropdown/Dropdown.vue"
 
 const buttonRef = ref<ButtonInterface | null>(null)
 const tooltipRef = ref<TooltipInstance | null>(null)
-const options:Partial<Options> = {
-  placement:'bottom',
-  strategy:'fixed'
-}
+const option:MenuOption[] = [
+    {
+      label: "选项1",
+      key: "1",
+    },
+    {
+      label: "选项2",
+      key: "2",
+      disabled:true
+    },
+    {
+      label: "选项3",
+      key: "3",
+      divided:true
+    },
+    {
+      label: h('b','this is bold'),
+      key: "4",
+    },
+    {
+      label: "选项5",
+      key: "5",
+    },
+    {
+      label: "选项6",
+      key: "6",
+    }
+]
 
 const openValue = ref(['1'])
 
