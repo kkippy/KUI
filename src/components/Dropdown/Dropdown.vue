@@ -27,7 +27,7 @@
               :id="`dropdown-item-${item.key}`"
               @click="handleClick(item)"
             >
-              {{item.label}}
+              <renderVNode :vNode="item.label" />
             </li>
           </template>
         </ul>
@@ -39,14 +39,19 @@
 
 <script setup lang="ts">
 import type {dropdownProps,DropdownEmits,DropdownInstance,MenuOption} from "./type"
+import renderVNode from "@/components/Tooltip/RenderVnode";
 import Tooltip from "@/components/Tooltip/tooltip.vue"
 import type {TooltipInstance} from "@/components/Tooltip/type";
 import {ref} from "vue";
+
+defineOptions({
+  name:'KDropdown'
+})
+
 const tooltipRef = ref<TooltipInstance | null>(null)
-
-
 const props = withDefaults(defineProps<dropdownProps>(),{
-  trigger:"hover"
+  trigger:"hover",
+  hideAfterClick:true,
 })
 
 const emit = defineEmits<DropdownEmits>()
@@ -55,8 +60,11 @@ const visibleChange = (e:boolean) => {
   emit("visible-change",e)
 }
 const handleClick = (e:MenuOption) => {
-  if(e.disabled) return
-  emit('select-change',e)
+  if (e.disabled) return
+  emit('select-change', e)
+  if (props.hideAfterClick) {
+    tooltipRef.value?.hide()
+  }
 }
 
 defineExpose({

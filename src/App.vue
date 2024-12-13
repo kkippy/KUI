@@ -4,9 +4,6 @@
   <header>
     <Dropdown ref="tooltipRef" placement="right" trigger="click"  :menu-option="option">
       <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-      <template #content>
-        <h2>hello world</h2>
-      </template>
     </Dropdown>
 
   </header>
@@ -53,7 +50,7 @@ import type {MenuOption} from "@/components/Dropdown/type";
 import {ref,onMounted,h}  from  "vue"
 import type {ButtonInterface} from "@/components/Button/type"
 import type {Options} from "@popperjs/core";
-import Dropdown from "@/components/Dropdown/Dropdown.vue"
+import Dropdown from "@/components/Dropdown/Dropdown"
 
 const buttonRef = ref<ButtonInterface | null>(null)
 const tooltipRef = ref<TooltipInstance | null>(null)
@@ -73,7 +70,7 @@ const option:MenuOption[] = [
       divided:true
     },
     {
-      label: h('b','this is bold'),
+      label: h('h2','this is bold'),
       key: "4",
     },
     {
