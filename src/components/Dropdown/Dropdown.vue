@@ -68,12 +68,8 @@ const handleClick = (e:MenuOption) => {
 }
 
 defineExpose({
-  hide:()=>{
-    tooltipRef.value?.hide
-  },
-  show:()=>{
-    tooltipRef.value?.show
-  }
+  hide: tooltipRef.value?.hide,
+  show: tooltipRef.value?.show
 })
 
 </script>

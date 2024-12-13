@@ -2,7 +2,14 @@
 
 <template>
   <header>
-    <Dropdown ref="tooltipRef" placement="right" trigger="click"  :menu-option="option">
+    <Dropdown
+        ref="tooltipRef"
+        placement="right"
+        trigger="click"
+        @visible-change = "e => console.log(e)"
+        @select-change = "e => console.log(e)"
+        manual
+        :menu-option="option">
       <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
     </Dropdown>
 
