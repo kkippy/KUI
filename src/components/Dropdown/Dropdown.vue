@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import type {dropdownProps,DropdownEmits,DropdownInstance,MenuOption} from "./type"
-import renderVNode from "@/components/Tooltip/RenderVnode";
+import renderVNode from "@/utils/RenderVnode";
 import Tooltip from "@/components/Tooltip/tooltip.vue"
 import type {TooltipInstance} from "@/components/Tooltip/type";
 import {ref} from "vue";
