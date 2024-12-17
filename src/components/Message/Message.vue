@@ -1,10 +1,12 @@
 <template>
   <div class="k-message"
+       ref="messageRef"
        v-show="visible"
        :class="{
           [`k-message-${type}`]: type,
           'is-close': showClose,
        }"
+       :style=cssStyle
        role="alert"
   >
     <div class="k-message__content">
@@ -23,15 +25,37 @@
 <script setup lang="ts">
 import type { MessageProps } from "./type"
 import renderVNode from "@/utils/RenderVnode";
-import {ref,watch,onMounted} from "vue"
-const visible = ref<boolean>(false)
+import {ref, watch, onMounted, computed,nextTick} from "vue"
 import Icon from "@/components/Icon/icon.vue"
+import {getLastInstance,getLastBottomOffset} from "./methods"
+const messageRef = ref<HTMLDivElement>()
+//偏移的高度
+const height = ref<number>(0)
+//上一个实例最底下的坐标
+const lastOffset = computed(()=>{
+  return getLastBottomOffset()
+})
+//元素的top offset
+const topOffset = computed(()=>{
+  return lastOffset.value +  props.offset
+})
+//为下一个元素预留的offset
+const nextOffset = computed(()=>{
+  return height.value + topOffset.value
+})
+
+const cssStyle = computed(()=> ({
+  top:topOffset.value + 'px'
+}))
 const props = withDefaults(defineProps<MessageProps>(),{
   duration:5000,
   showClose:false,
-  type:'info'
+  type:'info',
+  offset:20
 })
-
+const visible = ref<boolean>(false)
+const prevInstance = getLastInstance()
+console.log(prevInstance, '1')
 const startTimer = () => {
   if(props.duration === 0) return
     setTimeout(()=>{
@@ -39,9 +63,11 @@ const startTimer = () => {
     },props.duration)
 }
 
-onMounted(()=>{
+onMounted(async ()=>{
   visible.value = true
   startTimer()
+  await nextTick()
+  height.value = messageRef.value!.getBoundingClientRect().height
 })
 
 watch(visible,(newVal)=>{
@@ -50,15 +76,19 @@ watch(visible,(newVal)=>{
   }
 })
 
+defineExpose({
+  nextOffset
+})
+
 </script>
 
 <style scoped>
 .k-message {
-  display: inline-block;
   width: max-content;
   position: fixed;
   left: 50%;
   top: 20px;
   transform: translateX(-50%);
+  border: 1px solid red;
 }
 </style>
