@@ -1,5 +1,3 @@
-
-
 <template>
   <header>
     <Dropdown
@@ -58,6 +56,7 @@ import {ref,onMounted,h}  from  "vue"
 import type {ButtonInterface} from "@/components/Button/type"
 import type {Options} from "@popperjs/core";
 import Dropdown from "@/components/Dropdown/Dropdown"
+import {createMessages} from "@/components/Message/methods"
 
 const buttonRef = ref<ButtonInterface | null>(null)
 const tooltipRef = ref<TooltipInstance | null>(null)
@@ -100,7 +99,8 @@ const close = () => {
 }
 
 onMounted(()=>{
-
+  createMessages({content: 'hello world', duration: 0})
+  createMessages({content: 'hello world 222', })
 })
 </script>
 
