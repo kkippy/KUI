@@ -99,9 +99,8 @@ const close = () => {
 }
 
 onMounted(()=>{
-  createMessages({content: 'hello world', duration: 0})
-  createMessages({content: 'hello world 222', duration:10})
-  createMessages({content: 'hello world 333', })
+  createMessages({content: 'hello world 222', duration:0})
+  createMessages({content: 'hello world 333', duration:0})
 })
 </script>
 

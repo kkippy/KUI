@@ -11,6 +11,7 @@
   >
     <div class="k-message__content">
       <slot>
+        {{offset}}--{{topOffset}}--{{height}}--{{nextOffset}}
         <renderVNode :vNode="content" v-if="content"></renderVNode>
       </slot>
     </div>
@@ -25,7 +26,7 @@
 <script setup lang="ts">
 import type { MessageProps } from "./type"
 import renderVNode from "@/utils/RenderVnode";
-import {ref, watch, onMounted, computed,nextTick} from "vue"
+import {ref, watch, onMounted, computed,nextTick,getCurrentInstance} from "vue"
 import Icon from "@/components/Icon/icon.vue"
 import {getLastInstance,getLastBottomOffset} from "./methods"
 const messageRef = ref<HTMLDivElement>()
@@ -33,7 +34,7 @@ const messageRef = ref<HTMLDivElement>()
 const height = ref<number>(0)
 //上一个实例最底下的坐标
 const lastOffset = computed(()=>{
-  return getLastBottomOffset()
+  return getLastBottomOffset(props.id)
 })
 //元素的top offset
 const topOffset = computed(()=>{
