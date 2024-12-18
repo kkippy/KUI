@@ -3,7 +3,7 @@
        ref="messageRef"
        v-show="visible"
        :class="{
-          [`k-message-${type}`]: type,
+          [`k-message--${type}`]: type,
           'is-close': showClose,
        }"
        :style=cssStyle
@@ -18,7 +18,7 @@
     </div>
 
     <div v-if="showClose" class="k-message__close">
-      <Icon @click.stop = "visible = false" icon="xmark" ></Icon>
+      <Icon @click.stop = "visible = false" icon="xmark" />
     </div>
 
   </div>
@@ -55,7 +55,7 @@ const cssStyle = computed(()=> ({
 }))
 const props = withDefaults(defineProps<MessageProps>(),{
   duration:5000,
-  showClose:false,
+  showClose:true,
   type:'info',
   offset:20
 })
@@ -100,13 +100,3 @@ defineExpose({
 
 </script>
 
-<style scoped>
-.k-message {
-  width: max-content;
-  position: fixed;
-  left: 50%;
-  top: 20px;
-  transform: translateX(-50%);
-  border: 1px solid red;
-}
-</style>
