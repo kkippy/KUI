@@ -99,8 +99,13 @@ const close = () => {
 }
 
 onMounted(()=>{
-  createMessages({content: 'hello world 222', duration:0})
+  createMessages({content: 'hello world 111', duration:0})
+  const instance1 = createMessages({content: 'hello world 222', duration:0})
   createMessages({content: 'hello world 333', duration:0})
+
+  setTimeout(()=>{
+    instance1.destroy()
+  },5000)
 })
 </script>
 

@@ -1,10 +1,11 @@
 import type {createMessageProps,MessageContext} from "./type"
 import {render,h,shallowReactive} from "vue";
 import MessageComponent from "./Message.vue"
-
+import useZIndex from "@/utils/useZIndex"
 //申明存放所有的message实例数组，注意是响应式的，这样才能够数据更新时触发getLastBottomOffset方法从而获得vm实例
 //使用shallowReactive以减少不必要的深层响应式遍历
 const instances:MessageContext[] = shallowReactive([])
+const  {nextZIndex} = useZIndex()
 let seed = 1
 export const createMessages = (prop:createMessageProps) => {
     //创建一个存放message的dom节点
@@ -18,9 +19,20 @@ export const createMessages = (prop:createMessageProps) => {
         instances.splice(index,1)
         render(null,container)
     }
+
+    //手动删除，即改组件中visible的值为false，从而隐藏组件
+    //在组件中，visible是expose出来的所以可以通过vm.exposed来获取
+    const manualDestroy = () => {
+        const instance = instances.find(instance => instance.id === id)
+        if(instance) {
+            instance.vm.exposed!.visible.value = false
+        }
+    }
+
     const newProps = {
         ...prop,
         id,
+        zIndex:nextZIndex(),
         onDestroy:destory
     }
     //创建vNode
@@ -36,7 +48,8 @@ export const createMessages = (prop:createMessageProps) => {
         id,
         props:newProps,
         vm,
-        vNode
+        vNode,
+        destroy:manualDestroy
     }
     instances.push(instance)
     return instance

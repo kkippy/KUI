@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import type { MessageProps } from "./type"
 import renderVNode from "@/utils/RenderVnode";
-import {ref, watch, onMounted, computed,nextTick,getCurrentInstance} from "vue"
+import {ref, watch, onMounted, computed,nextTick} from "vue"
 import Icon from "@/components/Icon/icon.vue"
 import {getLastInstance,getLastBottomOffset} from "./methods"
 const messageRef = ref<HTMLDivElement>()
@@ -46,7 +46,8 @@ const nextOffset = computed(()=>{
 })
 
 const cssStyle = computed(()=> ({
-  top:topOffset.value + 'px'
+  top:topOffset.value + 'px',
+  zIndex:props.zIndex,
 }))
 const props = withDefaults(defineProps<MessageProps>(),{
   duration:5000,
@@ -78,7 +79,8 @@ watch(visible,(newVal)=>{
 })
 
 defineExpose({
-  nextOffset
+  nextOffset,
+  visible //用于组件的关闭，所以要暴露出去
 })
 
 </script>

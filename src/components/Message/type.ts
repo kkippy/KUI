@@ -7,7 +7,8 @@ export interface  MessageProps {
   showClose?:boolean; //控制关闭按钮的显示隐藏;
   onDestroy:() => void;
   offset?:number;
-  id:string
+  id:string,
+  zIndex:number
 }
 
 //包含多个Message实例的数组
@@ -15,8 +16,9 @@ export interface  MessageContext {
   id:string
   vm:ComponentInternalInstance
   props:MessageProps
-  vNode:VNode
+  vNode:VNode,
+  destroy:() => void
 }
 
 //创建忽略onDestroy的MessageProps
-export type createMessageProps = Omit<MessageProps,'onDestroy' | 'id'>
+export type createMessageProps = Omit<MessageProps,'onDestroy' | 'id' | 'zIndex'>
