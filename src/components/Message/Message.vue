@@ -8,10 +8,11 @@
        }"
        :style=cssStyle
        role="alert"
+       @mouseenter="closeTimer"
+       @mouseleave="startTimer"
   >
     <div class="k-message__content">
       <slot>
-        {{offset}}--{{topOffset}}--{{height}}--{{nextOffset}}
         <renderVNode :vNode="content" v-if="content"></renderVNode>
       </slot>
     </div>
@@ -28,7 +29,10 @@ import type { MessageProps } from "./type"
 import renderVNode from "@/utils/RenderVnode";
 import {ref, watch, onMounted, computed,nextTick} from "vue"
 import Icon from "@/components/Icon/icon.vue"
-import {getLastInstance,getLastBottomOffset} from "./methods"
+import {getLastBottomOffset} from "./methods"
+import useEventListener from "@/utils/useEventListener"
+
+let timer:any
 const messageRef = ref<HTMLDivElement>()
 //偏移的高度
 const height = ref<number>(0)
@@ -56,14 +60,25 @@ const props = withDefaults(defineProps<MessageProps>(),{
   offset:20
 })
 const visible = ref<boolean>(false)
-const prevInstance = getLastInstance()
-console.log(prevInstance, '1')
-const startTimer = () => {
+function startTimer() {
   if(props.duration === 0) return
-    setTimeout(()=>{
+    timer = setTimeout(()=>{
       visible.value = false
     },props.duration)
 }
+
+function keyDown(e:Event){
+  const event = e as KeyboardEvent
+  if(event.code === 'Escape') {
+    visible.value = false
+  }
+}
+
+function closeTimer(){
+  clearTimeout(timer)
+}
+
+useEventListener(document,'keydown',keyDown)
 
 onMounted(async ()=>{
   visible.value = true
