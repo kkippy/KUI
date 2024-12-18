@@ -1,5 +1,10 @@
 <template>
-  <div class="k-message"
+  <Transition
+      :name="transitionName"
+      @after-leave="destroyComponent"
+      @enter="updateHeight"
+  >
+    <div class="k-message"
        ref="messageRef"
        v-show="visible"
        :class="{
@@ -22,6 +27,7 @@
     </div>
 
   </div>
+  </Transition>
 </template>
 
 <script setup lang="ts">
@@ -53,11 +59,13 @@ const cssStyle = computed(()=> ({
   top:topOffset.value + 'px',
   zIndex:props.zIndex,
 }))
+
 const props = withDefaults(defineProps<MessageProps>(),{
   duration:5000,
   showClose:true,
   type:'info',
-  offset:20
+  offset:20,
+  transitionName:'fade-up'
 })
 const visible = ref<boolean>(false)
 function startTimer() {
@@ -83,15 +91,14 @@ useEventListener(document,'keydown',keyDown)
 onMounted(async ()=>{
   visible.value = true
   startTimer()
-  await nextTick()
-  height.value = messageRef.value!.getBoundingClientRect().height
 })
+function destroyComponent(){
+  props.onDestroy()
+}
 
-watch(visible,(newVal)=>{
-  if(!newVal) {
-    props.onDestroy()
-  }
-})
+function updateHeight(){
+  height.value = messageRef.value!.getBoundingClientRect().height
+}
 
 defineExpose({
   nextOffset,

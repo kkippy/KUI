@@ -23,6 +23,8 @@
     padding:var(--k-message-padding);
     display: flex;
     align-items: center;
+    transition:top var(--k-transition-duration),opacity var(--k-transition-duration),
+    transform var(--k-transition-duration);
 
     .k-message__content {
         color:var(--k-message-text-color);
@@ -53,5 +55,9 @@
             --k-icon-color:var(--k-color-$(val));
         }
     }
+}
+.fade-up-enter-from, .fade-up-leave-to{
+    opacity: 0;
+    transform: translate(-50%,-100%);
 }
 

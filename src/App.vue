@@ -16,7 +16,7 @@
   <main>
     <Button ref="buttonRef" type="success" @click="open">打开tooltip</Button>
     <Button ref="buttonRef" type="warning" @click="close">关闭tooltip</Button>
-    <Button ref="buttonRef" type="primary">Test Button</Button>
+    <Button ref="buttonRef" type="primary" @click="openMessage">打开message</Button>
     <Button ref="buttonRef" type="warning" loading >loading</Button>
     <Button ref="buttonRef" type="primary" icon="arrow-up">Test Button</Button>
     <Collapse v-model="openValue" accordion>
@@ -98,14 +98,15 @@ const close = () => {
   tooltipRef.value?.hide()
 }
 
+const openMessage = ()=>{
+  createMessages({content: '自定义内容', duration:2000, type:'danger'})
+}
+
 onMounted(()=>{
   createMessages({content: 'hello world 111', duration:0, type:'success'})
-  const instance1 = createMessages({content: 'hello world 222', duration:0,type:'error'})
+  createMessages({content: 'hello world 222', duration:0,type:'danger'})
   createMessages({content: 'hello world 333', duration:2000, type:'warning'})
 
-  setTimeout(()=>{
-    instance1.destroy()
-  },5000)
 })
 </script>
 
