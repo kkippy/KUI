@@ -32,11 +32,11 @@
 
 <script setup lang="ts">
 import type { MessageProps } from "./type"
-import renderVNode from "@/utils/RenderVnode";
+import renderVNode from "../../utils/RenderVnode";
 import {ref, watch, onMounted, computed,nextTick} from "vue"
-import Icon from "@/components/Icon/icon.vue"
+import Icon from "../../components/Icon/icon.vue"
 import {getLastBottomOffset} from "./methods"
-import useEventListener from "@/utils/useEventListener"
+import useEventListener from "../../utils/useEventListener"
 
 let timer:any
 const messageRef = ref<HTMLDivElement>()

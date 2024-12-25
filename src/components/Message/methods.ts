@@ -1,7 +1,7 @@
 import type {createMessageProps,MessageContext} from "./type"
 import {render,h,shallowReactive} from "vue";
 import MessageComponent from "./Message.vue"
-import useZIndex from "@/utils/useZIndex"
+import useZIndex from "../../utils/useZIndex"
 //申明存放所有的message实例数组，注意是响应式的，这样才能够数据更新时触发getLastBottomOffset方法从而获得vm实例
 //使用shallowReactive以减少不必要的深层响应式遍历
 const instances:MessageContext[] = shallowReactive([])
@@ -68,4 +68,10 @@ export const getLastBottomOffset = (id:string) =>{
         const prevInstance = instances[index - 1]
         return prevInstance.vm.exposed!.nextOffset.value
     }
+}
+
+export const closeAll = () =>{
+    instances.forEach(instance => {
+        instance.destroy()
+    })
 }
