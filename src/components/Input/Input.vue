@@ -29,6 +29,8 @@
             :type="type"
             class="k-input-inner"
             :disabled="disabled"
+            v-model="innerValue"
+            @input="handleInput"
         >
 
         <!--suffix-->
@@ -48,6 +50,10 @@
       <textarea
         class="k-textarea_wrapper"
         :disabled="disabled"
+        v-model="innerValue"
+        @input="handleInput"
+
+
       >
       </textarea>
     </template>
@@ -56,6 +62,7 @@
 
 <script setup lang="ts">
 import  type {InputProps,InputEmits} from "./type"
+import {ref,watch} from "vue"
 
 defineOptions({
   name: 'KInput'
@@ -65,5 +72,14 @@ const props = withDefaults(defineProps<InputProps>(), {
   type:'text'
 })
 
-const emit = defineEmits<InputEmits>()
+const emits = defineEmits<InputEmits>()
+
+const innerValue = ref(props.modelValue)
+// 外部的值更新时内部也要改变
+watch(()=>props.modelValue,(newValue)=>{
+  innerValue.value = newValue
+})
+const handleInput = () => {
+  emits('update:modelValue', innerValue.value)
+}
 </script>
