@@ -68,5 +68,55 @@ describe('Input',()=>{
         expect(wrapper3.find('input').element.value).toBe('async')
     })
 
+    it.only('清空操作',async ()=>{
+        const wrapper4 = mount(Input,{
+            props:{
+                type:'text',
+                clearable:true,
+                modelValue:'hello',
+
+            },
+            global:{
+                stubs:['Icon']
+
+            }
+        })
+        // 不应该出现icon区域
+        expect(wrapper4.find('.k-input_clear').exists()).toBeFalsy()
+        const input = wrapper4.get('input')
+        await input.trigger('focus')
+        //应该出现icon区域
+        expect(wrapper4.find('.k-input_clear').exists()).toBeTruthy()
+        // 点击清空图标内容为空
+        await wrapper4.find('.k-input_clear').trigger('click')
+        expect(input.element.value).toBe('')
+    })
+
+    it.only('密码展示 ', async () => {
+        const wrapper5 = mount(Input, {
+            props: {
+                type: 'password',
+                showPassword: true,
+                modelValue: '' //当为空时不会出现密码的图标
+            },
+            global: {
+                stubs: ['Icon']
+            }
+        })
+
+        expect(wrapper5.find('.k-input_password').exists()).toBeFalsy()
+        const input = wrapper5.find('input')
+        expect(input.element.type).toBe('password')
+        await input.setValue('world')
+        const eyeIcon = wrapper5.find('.k-input_password')
+        expect(eyeIcon.exists()).toBeTruthy()
+        expect(eyeIcon.attributes('icon')).toBe('eye-slash')
+        // 点击切换Input类型
+        await eyeIcon.trigger('click')
+        expect(input.element.type).toBe('text')
+        // eyeIcon对象会缓存，所以要重新获取
+        expect(wrapper5.find('.k-input_password').attributes('icon')).toBe('eye')
+    });
+
 
 })

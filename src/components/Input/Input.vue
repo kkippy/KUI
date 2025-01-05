@@ -9,6 +9,7 @@
         'is-suffix':$slots.suffix,
         'is-append':$slots.append,
         'is-prepend':$slots.prepend,
+        'is-focus':isFocus,
       }"
   >
 
@@ -26,16 +27,20 @@
         </div>
 
         <input
-            :type="type"
+            :type=" showPassword ? (passwordVisible ? 'text' : 'password') : type"
             class="k-input-inner"
             :disabled="disabled"
             v-model="innerValue"
             @input="handleInput"
+            @focus="handleFocus"
+            @blur="handleBlur"
         >
 
         <!--suffix-->
-        <div class="k-input_suffix" v-if="$slots.suffix">
+        <div class="k-input_suffix" v-if="$slots.suffix || showClear || showPassword">
           <slot name="suffix"></slot>
+          <Icon icon="circle-xmark" v-if="showClear"  class="k-input_clear" @click="handleClear" />
+          <Icon :icon="passwordVisible ? 'eye' : 'eye-slash'" v-if="showPassword " class="k-input_password" @click="handlePassword" />
         </div>
       </div>
 
@@ -52,7 +57,8 @@
         :disabled="disabled"
         v-model="innerValue"
         @input="handleInput"
-
+        @focus="handleFocus"
+        @blur="handleBlur"
 
       >
       </textarea>
@@ -62,7 +68,8 @@
 
 <script setup lang="ts">
 import  type {InputProps,InputEmits} from "./type"
-import {ref,watch} from "vue"
+import {computed, ref, watch} from "vue"
+import Icon from '../Icon/icon.vue'
 
 defineOptions({
   name: 'KInput'
@@ -75,6 +82,21 @@ const props = withDefaults(defineProps<InputProps>(), {
 const emits = defineEmits<InputEmits>()
 
 const innerValue = ref(props.modelValue)
+const isFocus = ref(false)
+const passwordVisible = ref(false)
+
+
+
+const showClear = computed(()=>
+    // 使用两个感叹号将其转换为布尔值
+  props.clearable && !!innerValue.value && !props.disabled && isFocus.value
+)
+
+const showPassword = computed(()=>
+    // 使用两个感叹号将其转换为布尔值
+  props.showPassword && !props.disabled && !!innerValue.value
+)
+
 // 外部的值更新时内部也要改变
 watch(()=>props.modelValue,(newValue)=>{
   innerValue.value = newValue
@@ -82,4 +104,22 @@ watch(()=>props.modelValue,(newValue)=>{
 const handleInput = () => {
   emits('update:modelValue', innerValue.value)
 }
+
+const handleFocus = () => {
+  isFocus.value = true
+}
+
+const handleBlur = () => {
+  isFocus.value = false
+}
+
+const handleClear = () => {
+  innerValue.value = ''
+  emits('update:modelValue', '')
+}
+
+const handlePassword = () => {
+      passwordVisible.value = !passwordVisible.value
+}
+
 </script>

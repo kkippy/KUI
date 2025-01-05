@@ -8,7 +8,7 @@ export interface InputProps {
 }
 
 export interface  InputEmits {
-    (e:'change',value:string):void;
+    (e:'change',value:string):void; //改变了值且失去了焦点
     (e:'blur',value:string):void;
     (e:'focus',value:string):void;
     (e:'clear'):void;
