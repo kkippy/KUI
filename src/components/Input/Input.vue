@@ -34,6 +34,8 @@
             @input="handleInput"
             @focus="handleFocus"
             @blur="handleBlur"
+            @change="handleChange"
+
         >
 
         <!--suffix-->
@@ -59,6 +61,7 @@
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"
+        @change="handleChange"
 
       >
       </textarea>
@@ -103,19 +106,30 @@ watch(()=>props.modelValue,(newValue)=>{
 })
 const handleInput = () => {
   emits('update:modelValue', innerValue.value)
+  emits('input', innerValue.value)
 }
 
-const handleFocus = () => {
+const handleChange = () => {
+  emits('change', innerValue.value)
+}
+
+const handleFocus = (e:FocusEvent) => {
+  emits('focus', e)
   isFocus.value = true
 }
 
-const handleBlur = () => {
+const handleBlur = (e:FocusEvent) => {
+  emits('blur', e)
   isFocus.value = false
 }
 
 const handleClear = () => {
   innerValue.value = ''
   emits('update:modelValue', '')
+  emits('clear')
+  //触发clear事件后应该触发input和change事件
+  emits('input','')
+  emits('change','')
 }
 
 const handlePassword = () => {

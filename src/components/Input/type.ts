@@ -9,8 +9,8 @@ export interface InputProps {
 
 export interface  InputEmits {
     (e:'change',value:string):void; //改变了值且失去了焦点
-    (e:'blur',value:string):void;
-    (e:'focus',value:string):void;
+    (e:'blur',value:FocusEvent):void;
+    (e:'focus',value:FocusEvent):void;
     (e:'clear'):void;
     (e:'input',value:string):void;
     (e:'update:modelValue',value:string):void

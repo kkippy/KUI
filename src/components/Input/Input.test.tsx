@@ -15,7 +15,6 @@ describe('Input',()=>{
                 prefix:'prefix'
             }
         })
-        console.log(wrapper.html())
         // 检测class是否达到预期
         expect(wrapper.classes()).toContain('k-input')
         expect(wrapper.classes()).toContain('k-input-small')
@@ -60,6 +59,18 @@ describe('Input',()=>{
         expect(wrapper3.find('input').element.value).toBe('hello')
         // 更新值
         await wrapper3.find('input').setValue('world')
+        console.log(wrapper3.emitted())
+        //断言组件上有input和change事件
+        expect(wrapper3.emitted()).toHaveProperty('input')
+        expect(wrapper3.emitted()).toHaveProperty('change')
+
+        //创建对应事件
+        const inputEvent = wrapper3.emitted('input')
+        const changeEvent = wrapper3.emitted('change')
+        //强制转换，判断事件集合的第一项是否为修改后的值world
+        expect(inputEvent![0]).toEqual(['world'])
+        expect(changeEvent![0]).toEqual(['world'])
+
         expect(wrapper3.find('input').element.value).toBe('world')
         expect(wrapper3.props('modelValue')).toBe('world')
 
@@ -68,7 +79,7 @@ describe('Input',()=>{
         expect(wrapper3.find('input').element.value).toBe('async')
     })
 
-    it.only('清空操作',async ()=>{
+    it('清空操作',async ()=>{
         const wrapper4 = mount(Input,{
             props:{
                 type:'text',
@@ -85,14 +96,28 @@ describe('Input',()=>{
         expect(wrapper4.find('.k-input_clear').exists()).toBeFalsy()
         const input = wrapper4.get('input')
         await input.trigger('focus')
+        expect(wrapper4.emitted()).toHaveProperty('focus')
         //应该出现icon区域
         expect(wrapper4.find('.k-input_clear').exists()).toBeTruthy()
         // 点击清空图标内容为空
         await wrapper4.find('.k-input_clear').trigger('click')
         expect(input.element.value).toBe('')
+
+        // 点击清空图标后，触发清空事件，并且还有input事件和change事件
+        expect(wrapper4.emitted()).toHaveProperty('clear')
+        expect(wrapper4.emitted()).toHaveProperty('input')
+        expect(wrapper4.emitted()).toHaveProperty('change')
+        //因为触发了清空事件，所以input事件和change事件应该为空
+        const inputEvent = wrapper4.emitted('input')
+        expect(inputEvent![0]).toEqual([''])
+        const changeEvent = wrapper4.emitted('change')
+        expect(changeEvent![0]).toEqual([''])
+
+        await input.trigger('blur')
+        expect(wrapper4.emitted()).toHaveProperty('blur')
     })
 
-    it.only('密码展示 ', async () => {
+    it('密码展示 ', async () => {
         const wrapper5 = mount(Input, {
             props: {
                 type: 'password',
