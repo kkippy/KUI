@@ -29,7 +29,14 @@
         <input
             :type=" showPassword ? (passwordVisible ? 'text' : 'password') : type"
             class="k-input-inner"
+            v-bind="attrs"
+            ref="inputRef"
             :disabled="disabled"
+            :autocomplete="autocomplete"
+            :form="form"
+            :placeholder="placeholder"
+            :readonly="readonly"
+            :autofocus="autofocus"
             v-model="innerValue"
             @input="handleInput"
             @focus="handleFocus"
@@ -39,9 +46,9 @@
         >
 
         <!--suffix-->
-        <div class="k-input_suffix" v-if="$slots.suffix || showClear || showPassword">
+        <div class="k-input_suffix" v-if="$slots.suffix || showClear || showPassword" @click="keepFocus">
           <slot name="suffix"></slot>
-          <Icon icon="circle-xmark" v-if="showClear"  class="k-input_clear" @click="handleClear" />
+          <Icon icon="circle-xmark" v-if="showClear"  class="k-input_clear" @click="handleClear" @mousedown.prevent="NOOP" />
           <Icon :icon="passwordVisible ? 'eye' : 'eye-slash'" v-if="showPassword " class="k-input_password" @click="handlePassword" />
         </div>
       </div>
@@ -56,13 +63,19 @@
     <template v-else>
       <textarea
         class="k-textarea_wrapper"
+        v-bind="attrs"
+        ref="inputRef"
         :disabled="disabled"
+        :autocomplete="autocomplete"
+        :form="form"
+        :placeholder="placeholder"
+        :readonly="readonly"
+        :autofocus="autofocus"
         v-model="innerValue"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"
         @change="handleChange"
-
       >
       </textarea>
     </template>
@@ -71,24 +84,28 @@
 
 <script setup lang="ts">
 import  type {InputProps,InputEmits} from "./type"
-import {computed, ref, watch} from "vue"
+import {computed, ref, useAttrs, watch,nextTick} from "vue"
 import Icon from '../Icon/icon.vue'
+import type {Ref} from "vue"
 
 defineOptions({
-  name: 'KInput'
+  name: 'KInput',
+  inheritAttrs:false
 })
 
 const props = withDefaults(defineProps<InputProps>(), {
-  type:'text'
+  type:'text',
+  autocomplete:'off'
 })
 
 const emits = defineEmits<InputEmits>()
-
+const attrs = useAttrs()
 const innerValue = ref(props.modelValue)
 const isFocus = ref(false)
 const passwordVisible = ref(false)
 
-
+//创建实例将input的默认事件暴露出去
+const inputRef = ref() as Ref<HTMLInputElement >
 
 const showClear = computed(()=>
     // 使用两个感叹号将其转换为布尔值
@@ -113,6 +130,13 @@ const handleChange = () => {
   emits('change', innerValue.value)
 }
 
+const keepFocus = async () => {
+  //需要等待所有dom更新完之后再去聚焦
+  await nextTick(()=>{
+    inputRef.value.focus()
+  })
+}
+
 const handleFocus = (e:FocusEvent) => {
   emits('focus', e)
   isFocus.value = true
@@ -133,7 +157,13 @@ const handleClear = () => {
 }
 
 const handlePassword = () => {
-      passwordVisible.value = !passwordVisible.value
+  passwordVisible.value = !passwordVisible.value
 }
 
+const NOOP = ()=> {}
+
+//暴露input实例
+defineExpose({
+  ref:inputRef
+})
 </script>

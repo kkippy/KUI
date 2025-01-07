@@ -5,6 +5,11 @@ export interface InputProps {
     showPassword?:boolean;
     disabled?:boolean;
     modelValue:string;
+    placeholder?:string;
+    readonly?:boolean;
+    autofocus?:boolean;
+    autocomplete?:string;
+    form?:string;
 }
 
 export interface  InputEmits {
