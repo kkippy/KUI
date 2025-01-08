@@ -14,33 +14,36 @@
   </header>
 
   <main>
-    <Button ref="buttonRef" type="success" @click="open">打开tooltip</Button>
-    <Button ref="buttonRef" type="warning" @click="close">关闭tooltip</Button>
-    <Button ref="buttonRef" type="primary" @click="openMessage">打开message</Button>
-    <Button ref="buttonRef" type="warning" loading >loading</Button>
-    <Button ref="buttonRef" type="primary" icon="arrow-up">Test Button</Button>
-    <Collapse v-model="openValue" accordion>
-      <CollapseItem  name="1">
-        <template #title>
-          哈哈哈哈
-        </template>
-        <div>第一个的内容</div>
-      </CollapseItem>
+<!--    <Button ref="buttonRef" type="success" @click="open">打开tooltip</Button>-->
+<!--    <Button ref="buttonRef" type="warning" @click="close">关闭tooltip</Button>-->
+<!--    <Button ref="buttonRef" type="primary" @click="openMessage">打开message</Button>-->
+<!--    <Button ref="buttonRef" type="warning" loading >loading</Button>-->
+<!--    <Button ref="buttonRef" type="primary" icon="arrow-up">Test Button</Button>-->
+<!--    <Collapse v-model="openValue" accordion>-->
+<!--      <CollapseItem  name="1">-->
+<!--        <template #title>-->
+<!--          哈哈哈哈-->
+<!--        </template>-->
+<!--        <div>第一个的内容</div>-->
+<!--      </CollapseItem>-->
 
-      <CollapseItem  name="2">
-        <template #title>
-          第二个标题
-        </template>
-        <div>第二个的内容</div>
-      </CollapseItem>
+<!--      <CollapseItem  name="2">-->
+<!--        <template #title>-->
+<!--          第二个标题-->
+<!--        </template>-->
+<!--        <div>第二个的内容</div>-->
+<!--      </CollapseItem>-->
 
-      <CollapseItem title="test2" name="2" disabled>
-        <template #title>
-          第二个
-        </template>
-      </CollapseItem>
-    </Collapse>
-    <Icon icon="poo" type="primary" />
+<!--      <CollapseItem title="test2" name="2" disabled>-->
+<!--        <template #title>-->
+<!--          第二个-->
+<!--        </template>-->
+<!--      </CollapseItem>-->
+<!--    </Collapse>-->
+<!--    <Icon icon="poo" type="primary" />-->
+
+    <Switch active-text="ON" inactive-text="OFF"  v-model="switchValue" />
+    {{switchValue}}
   </main>
 </template>
 
@@ -57,6 +60,7 @@ import type {ButtonInterface} from "@/components/Button/type"
 import type {Options} from "@popperjs/core";
 import Dropdown from "@/components/Dropdown/Dropdown"
 import {createMessages} from "@/components/Message/methods"
+import Switch from "@/components/Switch/index.vue"
 
 const buttonRef = ref<ButtonInterface | null>(null)
 const tooltipRef = ref<TooltipInstance | null>(null)
@@ -102,12 +106,17 @@ const openMessage = ()=>{
   createMessages({content: '自定义内容', duration:2000, type:'danger'})
 }
 
-onMounted(()=>{
-  createMessages({content: 'hello world 111', duration:0, type:'success'})
-  createMessages({content: 'hello world 222', duration:0,type:'danger'})
-  createMessages({content: 'hello world 333', duration:2000, type:'warning'})
+const switchValue = ref('right')
 
-})
+// onMounted(()=>{
+//   createMessages({content: 'hello world 111', duration:0, type:'success'})
+//   createMessages({content: 'hello world 222', duration:0,type:'danger'})
+//   createMessages({content: 'hello world 333', duration:2000, type:'warning'})
+//
+// })
+
+
+
 </script>
 
 <style scoped>

@@ -1,0 +1,90 @@
+.k-switch {
+  --k-switch-on-color: var(--k-color-primary);
+  --k-switch-off-color: var(--k-border-color);
+  --k-switch-on-border-color: var(--k-color-primary);
+  --k-switch-off-border-color: var(--k-border-color);
+}
+
+
+.k-switch {
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 20px;
+  height: 32px;
+  border:1px solid #eee;
+
+  &.is-checked{
+    .k-switch__core{
+      background-color: var(--k-switch-on-color);
+      border: 1px solid var(--k-switch-on-border-color);
+
+      .k-switch__core-action {
+        left:calc(100% - 17px);
+      }
+
+      .k-switch__core-inner {
+        padding: 0 18px 0 4px;
+      }
+    }
+  }
+
+  .k-switch__input {
+    position: absolute;
+    width: 0;
+    height: 0;
+    margin: 0;
+    opacity: 0;
+    &:focus-visible{
+      &~ .k-switch__core{
+        outline: 2px solid var(--k-switch-on-border-color);
+        outline-offset: 1px;
+      }
+    }
+  }
+}
+
+
+.k-switch__core {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  min-width: 40px;
+  border: 1px solid var(--k-switch-off-border-color);
+  outline: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  background-color: var(--k-switch-off-color);
+  cursor: pointer;
+  position: relative;
+  transition: background-color var(--k-switch-off-color) , border-color var(--k-switch-off-border-color);
+  .k-switch__core-action{
+    position: absolute;
+    border-radius: var(--k-border-radius-circle);
+    left:1px;
+    width: 16px;
+    height: 16px;
+    background-color: var(--k-color-white);
+    transition: all var(--k-transition-duration);
+  }
+
+  .k-switch__core-inner {
+    width: 100%;
+    transition: all var(--k-transition-duration);
+    height: 16px;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    overflow: hidden;
+    padding: 0 4px 0 18px;
+
+    .k-switch__core-inner-text {
+      font-size: 12px;
+      color: var(--k-color-white);
+      user-select: none;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}
