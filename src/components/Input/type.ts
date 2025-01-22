@@ -1,5 +1,5 @@
 export interface InputProps {
-    type:string;
+    type?:string;
     size?:'small' | 'large';
     clearable?:boolean;
     showPassword?:boolean;

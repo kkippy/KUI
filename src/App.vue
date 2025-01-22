@@ -41,9 +41,8 @@
 <!--      </CollapseItem>-->
 <!--    </Collapse>-->
 <!--    <Icon icon="poo" type="primary" />-->
-
-    <Switch active-text="ON" inactive-text="OFF"  v-model="switchValue" />
-    {{switchValue}}
+<!--    <Switch active-text="ON" inactive-text="OFF"  v-model="switchValue" />-->
+    <Select :options="options" v-model="test" placeholder="基础选择器" />
   </main>
 </template>
 
@@ -53,6 +52,8 @@ import Collapse from "@/components/Collapse/Collapse.vue"
 import Icon from "@/components/Icon/icon.vue"
 import CollapseItem from "@/components/Collapse/CollapseItem.vue"
 import Tooltip from "./components/Tooltip/tooltip.vue"
+import Select from "@/components/Select/Select.vue"
+
 import type {TooltipInstance} from "@/components/Tooltip/type";
 import type {MenuOption} from "@/components/Dropdown/type";
 import {ref,onMounted,h}  from  "vue"
@@ -108,12 +109,28 @@ const openMessage = ()=>{
 
 const switchValue = ref('right')
 
+const test = ref('1')
 // onMounted(()=>{
 //   createMessages({content: 'hello world 111', duration:0, type:'success'})
 //   createMessages({content: 'hello world 222', duration:0,type:'danger'})
 //   createMessages({content: 'hello world 333', duration:2000, type:'warning'})
 //
 // })
+const options = [
+    {
+      label: '选项1',
+      value: '1',
+      disabled: true
+    },
+    {
+      label: '选项2',
+      value: '2'
+    },
+    {
+      label: '选项3',
+      value: '3'
+    }
+]
 
 
 
