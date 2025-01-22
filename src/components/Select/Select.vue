@@ -10,11 +10,14 @@
       placement="bottom-start"
       manual
       ref="tooltipRef"
+      :popper-options="popperOptions"
+      @click-outside="controlDropdown(false)"
     >
       <Input
           v-model="status.inputValue"
           :disabled="disabled"
           :placeholder="placeholder"
+          readonly
       />
 
       <template #content>
@@ -55,6 +58,7 @@ const findOption = (value:string) => {
 defineOptions({
     name:"KSelect"
 })
+
 const props = defineProps<SelectProps>()
 const emits = defineEmits<SelectEmits>()
 const initialOption = findOption(props.modelValue)
@@ -66,6 +70,26 @@ const status = reactive<SelectStatus>({
 const tooltipRef = ref() as Ref<TooltipInstance>
 const isDropdownShow = ref(false)
 
+//使得弹出框与输入框有相同的宽度
+const popperOptions:any = {
+  modifiers: [
+    {
+      name: 'offset',
+      options: {
+        offset: [0, 8],
+      },
+    },
+    {
+      name:'sameWidth',
+      enabled:true,
+      phase:'beforeWrite',
+      requires:['computeStyles'],
+      fn({state}:{state:any}){
+        state.styles.popper.width = `${state.rects.reference.width}px`
+      },
+    }
+  ],
+}
 
 const controlDropdown = (show:boolean) => {
   if(show){

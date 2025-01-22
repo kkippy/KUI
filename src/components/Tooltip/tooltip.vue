@@ -122,6 +122,9 @@ clickOutside(containerRef,()=>{
   if(props.trigger === 'click' && isOpen.value && !props.manual){
     closeDebounce()
   }
+  if(isOpen.value) {
+    emits('click-outside',true)
+  }
 })
 
 const handleEvent = () => {
